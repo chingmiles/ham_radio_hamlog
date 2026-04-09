@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}{{ form_title }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar compact-toolbar">
+  <div>
+    <h1 style="margin:0 0 4px;">{{ form_title }}</h1>
+    <div class="muted">{{ tr('qso_record_desc') }}</div>
+  </div>
+  <a class="btn" href="{{ url_for('qso_list') }}">{{ tr('return_list') }}</a>
+</div>
+
+<div class="card compact-form">
+  <form method="post" id="qsoForm" data-is-new="{{ '1' if not qso or not qso.id else '0' }}">
+    <h2 class="section-title">{{ tr('qso_record') }}</h2>
+    <div class="form-grid">
+      <div class="span-3"><label>{{ tr('qso_date_utc') }}</label><input type="date" id="qsoDateInput" name="qso_date" value="{{ qso.qso_date if qso else '' }}" required></div>
+      <div class="span-3"><label>{{ tr('utc_time') }}</label><input type="text" id="qsoUtcTimeInput" name="qso_time_utc" value="{{ qso.qso_time_utc if qso else '' }}" placeholder="HH:MM:SS" inputmode="numeric" maxlength="8" required></div>
+      <div class="span-3"><label>{{ tr('operator_callsign') }}</label><input value="{{ current_user.username|upper if current_user.is_authenticated else 'N/A' }}" readonly></div>
+      <div class="span-3"><label>{{ tr('their_callsign_required') }}</label><input id="callsignInput" name="callsign" value="{{ qso.callsign if qso else '' }}" placeholder="BI8SCC / JA1XXX" required></div>
+
+      <div class="span-3"><label>{{ tr('mode') }}</label><select name="mode"><option value="">{{ tr('na') }}</option>{% for opt in mode_options %}<option value="{{ opt }}" {% if qso and qso.mode == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
+      <div class="span-3"><label>{{ tr('band') }}</label><select name="band"><option value="">{{ tr('na') }}</option>{% for opt in band_options %}<option value="{{ opt }}" {% if qso and qso.band == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
+      <div class="span-3"><label>{{ tr('frequency') }}</label><input name="frequency" value="{{ qso.frequency if qso else '' }}" placeholder="145.825 / 438.500"></div>
+      <div class="span-3"><label>{{ tr('dxcc') }}</label><div id="dxccPreview" class="dxcc-preview">{% if qso %}<img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"> <span>{{ qso_dxcc_name(qso) }}</span>{% else %}N/A{% endif %}</div></div>
+
+      <div class="span-3"><label>{{ tr('rst_sent') }}</label><input name="rst_sent" value="{{ qso.rst_sent if qso else '' }}" placeholder="59"></div>
+      <div class="span-3"><label>{{ tr('rst_recv') }}</label><input name="rst_recv" value="{{ qso.rst_recv if qso else '' }}" placeholder="59"></div>
+      <div class="span-3"><label>{{ tr('their_qth') }}</label><input name="their_qth" value="{{ qso.their_qth if qso else '' }}" placeholder="Taiyuan, Shanxi"></div>
+      <div class="span-3"><label>{{ tr('power_w') }}</label><input name="power_w" value="{{ qso.power_w if qso else '' }}" placeholder="5 / 25"></div>
+
+      <div class="span-3"><label>{{ tr('radio') }}</label><input name="radio" value="{{ qso.radio if qso else '' }}" placeholder="VR-N76 / UV-K6"></div>
+      <div class="span-3"><label>{{ tr('antenna') }}</label><input name="antenna" value="{{ qso.antenna if qso else '' }}" placeholder="5-element Yagi"></div>
+      <div class="span-6"><label>{{ tr('comment_label') }}</label><textarea name="notes" placeholder="QSO via repeater / Partial QSB / Eyeball">{{ qso.notes if qso else '' }}</textarea></div>
+    </div>
+
+    {% set sent_flag = 'yes' if qso and (qso.qsl_sent_date or qso.qsl_status in ['sent','received','both']) else 'no' %}
+    {% set recv_flag = 'yes' if qso and (qso.qsl_received_date or qso.qsl_status in ['received','both']) else 'no' %}
+    <h2 class="section-title" style="margin-top:18px;">{{ tr('qsl_status') }}</h2>
+    <div class="form-grid">
+      <div class="span-3"><label>{{ tr('qsl_sent') }}</label><select name="qsl_sent" id="qslSentSelect"><option value="no" {% if sent_flag == 'no' %}selected{% endif %}>{{ tr('no') }}</option><option value="yes" {% if sent_flag == 'yes' %}selected{% endif %}>{{ tr('yes') }}</option></select></div>
+      <div class="span-3"><label>{{ tr('qsl_sent_date') }}</label><input type="date" name="qsl_sent_date" id="qslSentDateInput" value="{{ qso.qsl_sent_date if qso else '' }}"></div>
+      <div class="span-3"><label>{{ tr('qsl_received') }}</label><select name="qsl_received" id="qslReceivedSelect"><option value="no" {% if recv_flag == 'no' %}selected{% endif %}>{{ tr('no') }}</option><option value="yes" {% if recv_flag == 'yes' %}selected{% endif %}>{{ tr('yes') }}</option></select></div>
+      <div class="span-3"><label>{{ tr('qsl_received_date') }}</label><input type="date" name="qsl_received_date" id="qslReceivedDateInput" value="{{ qso.qsl_received_date if qso else '' }}"></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn btn-primary" type="submit">{{ tr('save') }}</button>
+      <a class="btn" href="{{ url_for('qso_list') }}">{{ tr('cancel') }}</a>
+    </div>
+    <div class="mini muted" id="utcAutoHint" style="margin-top:8px;">{{ tr('auto_utc_hint') }}</div>
+  </form>
+</div>
+<script>
+  (() => {
+    const form = document.getElementById('qsoForm'); if (!form) return;
+    const isNew = form.dataset.isNew === '1';
+    const dateInput = document.getElementById('qsoDateInput');
+    const timeInput = document.getElementById('qsoUtcTimeInput');
+    const hint = document.getElementById('utcAutoHint');
+    const sentSelect = document.getElementById('qslSentSelect');
+    const sentDate = document.getElementById('qslSentDateInput');
+    const recvSelect = document.getElementById('qslReceivedSelect');
+    const recvDate = document.getElementById('qslReceivedDateInput');
+    const callsignInput = document.getElementById('callsignInput');
+    const dxccPreview = document.getElementById('dxccPreview');
+    let autoMode = isNew && !dateInput.value && !timeInput.value;
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function formatUtcDigits(raw){ const d=String(raw||'').replace(/\D/g,'').slice(0,6); if(d.length<=2) return d; if(d.length<=4) return `${d.slice(0,2)}:${d.slice(2)}`; return `${d.slice(0,2)}:${d.slice(2,4)}:${d.slice(4,6)}`; }
+    function currentUtcDate(){ const now=new Date(); return `${now.getUTCFullYear()}-${pad(now.getUTCMonth()+1)}-${pad(now.getUTCDate())}`; }
+    function currentUtcTime(){ const now=new Date(); return `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`; }
+    function syncUtcFields(){ if(!autoMode) return; dateInput.value=currentUtcDate(); timeInput.value=currentUtcTime(); }
+    function disableAutoMode(){ autoMode=false; if(hint) hint.textContent='{{ tr("auto_utc_hint") }}'; }
+    function syncQsl(){ if(sentSelect&&sentDate){ sentDate.disabled=sentSelect.value!=='yes'; if(sentSelect.value!=='yes') sentDate.value=''; } if(recvSelect&&recvDate){ recvDate.disabled=recvSelect.value!=='yes'; if(recvSelect.value!=='yes') recvDate.value=''; } }
+    const dxccMap = {{ dxcc_map_json|safe if dxcc_map_json is defined else '{}' }};
+    function normalizeDxccCallsign(cs){
+      cs = String(cs || '').trim().toUpperCase().replace(/\s+/g, '');
+      if(!cs) return '';
+      const parts = cs.split('/').filter(Boolean);
+      if(parts.length === 1) return parts[0];
+      const looksLikePrefix = (part) => part.length >= 1 && part.length <= 4 && /[A-Z]/.test(part) && /\d/.test(part);
+      const candidates = [];
+      if(looksLikePrefix(parts[0])) candidates.push(parts[0]);
+      for(const part of parts){ if(/[A-Z]/.test(part) && /\d/.test(part)) candidates.push(part); }
+      candidates.push(...parts);
+      return candidates[0] || cs;
+    }
+    function lookupDxcc(cs){
+      cs = normalizeDxccCallsign(cs);
+      const prefixes = Object.keys(dxccMap).sort((a,b)=>b.length-a.length);
+      for(const prefix of prefixes){
+        if(cs.startsWith(prefix)){
+          const info = dxccMap[prefix] || {};
+          const iso = String(info.iso || 'zz').toLowerCase();
+          const meta = [info.adif ? `ADIF ${info.adif}` : '', info.cq ? `CQ ${info.cq}` : '', info.itu ? `ITU ${info.itu}` : ''].filter(Boolean).join(' · ');
+          return `<img class="dxcc-flag-img" src="/static/flags/${iso}.svg" alt="${info.name || 'N/A'}"> <span>${info.name || 'N/A'}${meta ? ` <small class="muted">${meta}</small>` : ''}</span>`;
+        }
+      }
+      return 'N/A';
+    }
+    if(callsignInput && dxccPreview){ const update=()=>{ dxccPreview.innerHTML=lookupDxcc(callsignInput.value); }; callsignInput.addEventListener('input', update); update(); }
+    timeInput.addEventListener('input',()=>{ const f=formatUtcDigits(timeInput.value); timeInput.value=f; if(isNew) disableAutoMode(); });
+    dateInput.addEventListener('input',()=>{ if(isNew) disableAutoMode(); });
+    if(sentSelect) sentSelect.addEventListener('change', syncQsl);
+    if(recvSelect) recvSelect.addEventListener('change', syncQsl);
+    syncUtcFields(); syncQsl(); const timer=setInterval(syncUtcFields,1000); form.addEventListener('submit',()=>{ clearInterval(timer); timeInput.value=formatUtcDigits(timeInput.value); },{once:true});
+  })();
+</script>
+{% endblock %}

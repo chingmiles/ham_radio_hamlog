@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('home') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1 style="margin:0 0 6px;">{{ tr('home') }}</h1>
+    <div class="muted">{{ tr('qso_log_desc') }}</div>
+  </div>
+  <div class="pill">{{ tr('total_qsos') }} · {{ total_qsos }}</div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card compact-logbook">
+    <div class="toolbar compact-toolbar">
+      <h2 class="section-title" style="margin:0;">{{ tr('qso_log') }}</h2>
+    </div>
+    <div class="table-wrap desktop-only">
+      <table class="logbook-table">
+        <thead>
+          <tr>
+            <th>{{ tr('my_callsign') }}</th><th>{{ tr('their_callsign') }}</th><th>{{ tr('dxcc') }}</th><th>{{ tr('mode') }}</th><th>{{ tr('band') }}</th><th>{{ tr('datetime') }}</th><th>{{ tr('signal_report') }}</th><th>{{ tr('comment') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for qso in qsos %}
+          <tr>
+            <td>{{ station_callsign_value()|na }}</td>
+            <td>{{ qso.callsign|na }}</td>
+            <td title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></td>
+            <td>{{ qso.mode|na }}</td>
+            <td>{{ qso.band|na }}</td>
+            <td>{{ qso.qso_date|na }} {{ qso.qso_time_utc|na }}</td>
+            <td>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</td>
+            <td>{{ qso.notes|na }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="8"><div class="empty">{{ tr('none_match') }}</div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="mobile-card-list mobile-only">
+      {% for qso in qsos %}
+      <div class="card mobile-qso-card mobile-log-card">
+        <div><strong>{{ qso.callsign|na }}</strong></div>
+        <div class="mini muted">{{ qso.qso_date|na }} {{ qso.qso_time_utc|na }} UTC</div>
+        <div class="line"><span>{{ tr('dxcc') }}</span><span title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></span></div>
+        <div class="line"><span>{{ tr('mode') }}</span><span>{{ qso.mode|na }}</span></div>
+        <div class="line"><span>{{ tr('band') }}</span><span>{{ qso.band|na }}</span></div>
+        <div class="line"><span>{{ tr('signal_report') }}</span><span>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</span></div>
+        <div class="line"><span>{{ tr('comment') }}</span><span>{{ qso.notes|na }}</span></div>
+      </div>
+      {% else %}
+      <div class="empty">{{ tr('none_match') }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="toolbar compact-toolbar"><h2 class="section-title" style="margin:0;">{{ tr('mode_stats') }}</h2></div>
+    <div class="table-wrap"><table><tbody>{% for mode, count in modes %}<tr><td>{{ mode or tr('na') }}</td><td>{{ count }}</td></tr>{% else %}<tr><td colspan="2"><div class="empty">{{ tr('none_match') }}</div></td></tr>{% endfor %}</tbody></table></div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('adif_import_title') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div><h1 style="margin:0 0 6px;">{{ tr('adif_import_title') }}</h1><div class="muted">ADIF in, ADIF out.</div></div>
+  <a class="btn btn-success" href="{{ url_for('adif_export') }}">{{ tr('export_adif') }}</a>
+</div>
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{{ tr('import_adif') }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      <div style="margin-bottom:16px;"><label>{{ tr('choose_adif') }}</label><input type="file" name="adif_file" accept=".adi,.adif,text/plain" required></div>
+      <button class="btn btn-primary" type="submit">{{ tr('upload_file') }}</button>
+    </form>
+  </div>
+  <div class="card"><h2>Notes</h2><ul style="margin:0; padding-left:20px; line-height:1.8;"><li>Import appends records and does not deduplicate.</li><li>Common fields such as CALL, QSO_DATE, TIME_ON, BAND, FREQ, MODE, RST and COMMENT are supported.</li><li>Back up the data directory before large imports.</li></ul></div>
+</div>
+{% endblock %}

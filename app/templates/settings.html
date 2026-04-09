@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('settings') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1 style="margin:0 0 6px;">{{ tr('settings_title') }}</h1>
+    <div class="muted">{{ tr('settings_desc') }}</div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2 class="section-title">{{ tr('appearance_title') }}</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="save_source">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('current_background_source') }}</label>
+        <select name="background_source">
+          <option value="bing" {% if site_settings.background_source == 'bing' %}selected{% endif %}>{{ tr('bing_wallpaper') }}</option>
+          <option value="upload" {% if site_settings.background_source == 'upload' %}selected{% endif %}>{{ tr('upload_background') }}</option>
+          <option value="gradient" {% if site_settings.background_source == 'gradient' %}selected{% endif %}>{{ tr('gradient_background') }}</option>
+          <option value="solid" {% if site_settings.background_source == 'solid' %}selected{% endif %}>{{ tr('solid_color_background') }}</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">{{ tr('save_background_source') }}</button>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="action" value="upload_background">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('choose_image') }}</label>
+        <input type="file" name="background_file" accept=".png,.jpg,.jpeg,.gif,.webp">
+      </div>
+      <button class="btn" type="submit">{{ tr('upload_and_enable') }}</button>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post">
+      <input type="hidden" name="action" value="save_solid_color">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('solid_bg_color') }}</label>
+        <input type="color" name="solid_background_color" value="{{ site_settings.solid_background_color or '#0f172a' }}" style="height:52px; padding:8px;">
+      </div>
+      <button class="btn" type="submit">{{ tr('save_solid_color') }}</button>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post" class="form-grid">
+      <input type="hidden" name="action" value="save_opacity">
+      <div class="span-6">
+        <label>{{ tr('admin_bg_opacity') }}</label>
+        <input type="number" min="0" max="100" name="admin_bg_opacity" value="{{ site_settings.admin_bg_opacity }}" required>
+      </div>
+      <div class="span-6">
+        <label>{{ tr('public_bg_opacity') }}</label>
+        <input type="number" min="0" max="100" name="public_bg_opacity" value="{{ site_settings.public_bg_opacity }}" required>
+      </div>
+      <div class="span-12 btn-row"><button class="btn" type="submit">{{ tr('save_opacity') }}</button></div>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post">
+      <input type="hidden" name="action" value="save_theme">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('theme_mode') }}</label>
+        <select name="theme_preference">
+          <option value="auto" {% if site_settings.theme_preference == 'auto' %}selected{% endif %}>{{ tr('theme_auto') }}</option>
+          <option value="light" {% if site_settings.theme_preference == 'light' %}selected{% endif %}>{{ tr('theme_light') }}</option>
+          <option value="dark" {% if site_settings.theme_preference == 'dark' %}selected{% endif %}>{{ tr('theme_dark') }}</option>
+        </select>
+      </div>
+      <button class="btn" type="submit">{{ tr('save_theme_mode') }}</button>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post">
+      <input type="hidden" name="action" value="save_language">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('interface_language') }}</label>
+        <select name="interface_language">
+          <option value="zh" {% if site_settings.interface_language == 'zh' %}selected{% endif %}>{{ tr('chinese') }}</option>
+          <option value="en" {% if site_settings.interface_language == 'en' %}selected{% endif %}>{{ tr('english') }}</option>
+        </select>
+      </div>
+      <button class="btn" type="submit">{{ tr('save_language') }}</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">{{ tr('account') }}</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="username">
+      <div style="margin-bottom:14px;"><label>{{ tr('current_username') }}</label><input type="text" value="{{ current_user.username }}" disabled></div>
+      <div style="margin-bottom:18px;"><label>{{ tr('new_username') }}</label><input type="text" name="new_username" value="{{ current_user.username }}" required></div>
+      <div class="btn-row"><button class="btn btn-primary" type="submit">{{ tr('update_username') }}</button></div>
+    </form>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0;">
+    <form method="post">
+      <input type="hidden" name="action" value="password">
+      <div style="margin-bottom:14px;"><label>{{ tr('current_password') }}</label><input type="password" name="current_password" required></div>
+      <div style="margin-bottom:14px;"><label>{{ tr('new_password') }}</label><input type="password" name="new_password" required></div>
+      <div style="margin-bottom:18px;"><label>{{ tr('confirm_password') }}</label><input type="password" name="confirm_password" required></div>
+      <div class="btn-row"><button class="btn btn-primary" type="submit">{{ tr('update_password') }}</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

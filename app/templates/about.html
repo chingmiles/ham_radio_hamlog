@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('about_title') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1 style="margin:0 0 6px;">{{ tr('about_title') }}</h1>
+    <div class="muted">{{ tr('about_desc') }}</div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2 class="section-title">{{ tr('about_system') }}</h2>
+    <div class="muted" style="line-height:1.75;">{{ tr('about_system_body') }}</div>
+  </div>
+  <div class="card">
+    <h2 class="section-title">{{ tr('about_usage') }}</h2>
+    <div class="muted" style="line-height:1.75;">{{ tr('about_usage_body') }}</div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <h2 class="section-title">{{ tr('about_legal') }}</h2>
+  <div class="muted" style="line-height:1.85;">{{ tr('about_legal_body') }}</div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <h2 class="section-title">{{ tr('about_privacy') }}</h2>
+  <div class="muted" style="line-height:1.75;">{{ tr('about_privacy_body') }}</div>
+  <div class="hint-box mini" style="margin-top:14px;">{{ tr('about_disclaimer') }}</div>
+</div>
+{% endblock %}

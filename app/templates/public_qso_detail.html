@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{ qso.callsign }} - 访客详情 - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <div class="pill">国际通用日志视图</div>
+    <h1 style="margin:10px 0 6px;">{{ qso.callsign }}</h1>
+    <div class="muted">该页面保留，但访客页已经支持直接向下展开查看。</div>
+  </div>
+  <a class="btn" href="{{ url_for('public_qso_list') }}">返回访客页</a>
+</div>
+<div class="card inline-log-detail">
+  <div class="log-grid">
+    <div>STATION_CALLSIGN</div><div>{{ station_callsign_value()|na }}</div>
+    <div>CALL</div><div>{{ qso.callsign|na }}</div>
+    <div>DXCC</div><div><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"> {{ qso_dxcc_name(qso) }}</div>
+    <div>QSO_DATE</div><div>{{ qso.qso_date|na }}</div>
+    <div>TIME_ON</div><div>{{ qso.qso_time_utc|na }} UTC</div>
+    <div>BAND</div><div>{{ qso.band|na }}</div>
+    <div>FREQ</div><div>{{ qso.frequency|na }}</div>
+    <div>MODE</div><div>{{ qso.mode|na }}</div>
+    <div>RST_SENT / RST_RCVD</div><div>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</div>
+    <div>QTH</div><div>{{ qso.their_qth|na }}</div>
+    <div>RIG</div><div>{{ qso.radio|na }}</div>
+    <div>ANTENNA</div><div>{{ qso.antenna|na }}</div>
+    <div>TX_PWR</div><div>{{ qso.power_w|na }}</div>
+    <div>QSL_SENT</div><div>{{ yes_no(qsl_sent_flag(qso)) }}</div>
+    <div>QSL_RCVD</div><div>{{ yes_no(qsl_received_flag(qso)) }}</div>
+    <div>COMMENT</div><div>{{ qso.notes|na }}</div>
+  </div>
+</div>
+{% endblock %}

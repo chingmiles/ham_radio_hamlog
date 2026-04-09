@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('login') }} - HamLog{% endblock %}
+{% block auth_content %}
+<div class="card auth-card">
+  <div class="pill">Single user / self-hosted</div>
+  <h1 style="margin:14px 0 8px;">{{ tr('login_admin') }}</h1>
+  <p class="muted" style="margin-bottom:18px;">{{ tr('appearance_desc') }}</p>
+  <form method="post">
+    <div style="margin-bottom:14px;"><label>{{ tr('username') }}</label><input name="username" value="admin" required></div>
+    <div style="margin-bottom:16px;"><label>{{ tr('password') }}</label><input name="password" type="password" value="admin123" required></div>
+    <button class="btn btn-primary" type="submit" style="width:100%;">{{ tr('login') }}</button>
+  </form>
+  <div class="btn-row" style="margin-top:14px; justify-content:center;"><a class="btn" href="{{ url_for('public_qso_list') }}">{{ tr('public_page') }}</a></div>
+</div>
+{% endblock %}

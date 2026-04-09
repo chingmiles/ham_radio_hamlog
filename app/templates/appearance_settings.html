@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('appearance_title') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1 style="margin:0 0 6px;">{{ tr('appearance_title') }}</h1>
+    <div class="muted">{{ tr('appearance_desc') }}</div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2 class="section-title">{{ tr('background_source') }}</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="save_source">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('current_background_source') }}</label>
+        <select name="background_source">
+          <option value="bing" {% if site_settings.background_source == 'bing' %}selected{% endif %}>{{ tr('bing_wallpaper') }}</option>
+          <option value="upload" {% if site_settings.background_source == 'upload' %}selected{% endif %}>{{ tr('upload_background') }}</option>
+          <option value="gradient" {% if site_settings.background_source == 'gradient' %}selected{% endif %}>{{ tr('gradient_background') }}</option>
+          <option value="solid" {% if site_settings.background_source == 'solid' %}selected{% endif %}>{{ tr('solid_color_background') }}</option>
+        </select>
+      </div>
+      <div class="hint-box mini muted" style="margin-bottom:16px;">
+        {{ tr('upload_background') }}: {{ site_settings.custom_background_file or tr('not_uploaded') }}
+      </div>
+      <button class="btn btn-primary" type="submit">{{ tr('save_background_source') }}</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">{{ tr('upload_custom_background') }}</h2>
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="action" value="upload_background">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('choose_image') }}</label>
+        <input type="file" name="background_file" accept=".png,.jpg,.jpeg,.gif,.webp" required>
+      </div>
+      <button class="btn btn-primary" type="submit">{{ tr('upload_and_enable') }}</button>
+    </form>
+  </div>
+</div>
+
+<div class="grid grid-2" style="margin-top:16px;">
+  <div class="card">
+    <h2 class="section-title">{{ tr('solid_color_background') }}</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="save_solid_color">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('solid_bg_color') }}</label>
+        <input type="color" name="solid_background_color" value="{{ site_settings.solid_background_color or '#0f172a' }}" style="height:52px; padding:8px;">
+      </div>
+      <button class="btn btn-primary" type="submit">{{ tr('save_solid_color') }}</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">{{ tr('interface_language') }}</h2>
+    <form method="post">
+      <input type="hidden" name="action" value="save_language">
+      <div style="margin-bottom:16px;">
+        <label>{{ tr('interface_language') }}</label>
+        <select name="interface_language">
+          <option value="zh" {% if site_settings.interface_language == 'zh' %}selected{% endif %}>{{ tr('chinese') }}</option>
+          <option value="en" {% if site_settings.interface_language == 'en' %}selected{% endif %}>{{ tr('english') }}</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit">{{ tr('save_language') }}</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <h2 class="section-title">{{ tr('background_opacity') }}</h2>
+  <form method="post" class="form-grid">
+    <input type="hidden" name="action" value="save_opacity">
+    <div class="span-6">
+      <label>{{ tr('admin_bg_opacity') }}</label>
+      <input type="number" min="0" max="100" name="admin_bg_opacity" value="{{ site_settings.admin_bg_opacity }}" required>
+    </div>
+    <div class="span-6">
+      <label>{{ tr('public_bg_opacity') }}</label>
+      <input type="number" min="0" max="100" name="public_bg_opacity" value="{{ site_settings.public_bg_opacity }}" required>
+    </div>
+    <div class="span-12 btn-row">
+      <button class="btn btn-primary" type="submit">{{ tr('save_opacity') }}</button>
+      <a class="btn" href="{{ url_for('dashboard') }}">{{ tr('return_dashboard') }}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

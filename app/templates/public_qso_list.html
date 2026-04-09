@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}{{ tr('guest_log') }} - HamLog{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1 style="margin:0 0 6px;">{{ tr('guest_log') }}</h1>
+    <div class="muted">{{ tr('guest_log_desc') }}</div>
+  </div>
+  <div class="pill">{{ tr('recent_ten') }}</div>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <form method="get" class="form-grid">
+    <div class="span-3"><label>{{ tr('callsign') }}</label><input name="callsign" value="{{ request.args.get('callsign','') }}"></div>
+    <div class="span-3"><label>{{ tr('band') }}</label><select name="band"><option value="">{{ tr('na') }}</option>{% for opt in band_options %}<option value="{{ opt }}" {% if request.args.get('band','') == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
+    <div class="span-3"><label>{{ tr('mode') }}</label><select name="mode"><option value="">{{ tr('na') }}</option>{% for opt in mode_options %}<option value="{{ opt }}" {% if request.args.get('mode','') == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
+    <div class="span-3"><label>{{ tr('date_from') }}</label><input type="date" name="date_from" value="{{ request.args.get('date_from','') }}"></div>
+    <div class="span-3"><label>{{ tr('date_to') }}</label><input type="date" name="date_to" value="{{ request.args.get('date_to','') }}"></div>
+    <div class="span-6 btn-row" style="align-self:end;">
+      <button class="btn btn-primary" type="submit">{{ tr('search') }}</button>
+      <a class="btn" href="{{ url_for('public_qso_list') }}">{{ tr('reset') }}</a>
+      
+    </div>
+  </form>
+</div>
+
+<div class="card compact-logbook">
+  <div class="table-wrap desktop-only">
+    <table class="logbook-table">
+      <thead>
+        <tr>
+          <th>{{ tr('my_callsign') }}</th><th>{{ tr('their_callsign') }}</th><th>{{ tr('dxcc') }}</th><th>{{ tr('mode') }}</th><th>{{ tr('band') }}</th><th>{{ tr('datetime') }}</th><th>{{ tr('signal_report') }}</th><th>{{ tr('comment') }}</th><th>{{ tr('actions') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for qso in qsos %}
+        <tr>
+          <td>{{ station_callsign_value()|na }}</td>
+          <td>{{ qso.callsign|na }}</td>
+          <td title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></td>
+          <td>{{ qso.mode|na }}</td>
+          <td>{{ qso.band|na }}</td>
+          <td>{{ qso.qso_date|na }} {{ qso.qso_time_utc|na }}</td>
+          <td>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</td>
+          <td>{{ qso.notes|na }}</td>
+          <td><button class="btn btn-inline" type="button" onclick="toggleRow('detail-{{ qso.id }}', this)">{{ tr('expand') }}</button></td>
+        </tr>
+        <tr id="detail-{{ qso.id }}" class="inline-detail-row" hidden>
+          <td colspan="9">
+            <div class="inline-log-detail">
+              <div class="log-grid">
+                <div>STATION_CALLSIGN</div><div>{{ station_callsign_value()|na }}</div>
+                <div>CALL</div><div>{{ qso.callsign|na }}</div>
+                <div>DXCC</div><div title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"> {{ qso_dxcc_name(qso) }}{% if qso_dxcc_adif(qso) and qso_dxcc_adif(qso) != '0' %} <span class="mini muted">ADIF {{ qso_dxcc_adif(qso) }} · CQ {{ qso_dxcc_cq(qso)|na }} · ITU {{ qso_dxcc_itu(qso)|na }}</span>{% endif %}</div>
+                <div>QSO_DATE</div><div>{{ qso.qso_date|na }}</div>
+                <div>TIME_ON</div><div>{{ qso.qso_time_utc|na }} UTC</div>
+                <div>BAND</div><div>{{ qso.band|na }}</div>
+                <div>FREQ</div><div>{{ qso.frequency|na }}</div>
+                <div>MODE</div><div>{{ qso.mode|na }}</div>
+                <div>RST_SENT / RST_RCVD</div><div>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</div>
+                <div>QTH</div><div>{{ qso.their_qth|na }}</div>
+                <div>RIG</div><div>{{ qso.radio|na }}</div>
+                <div>ANTENNA</div><div>{{ qso.antenna|na }}</div>
+                <div>TX_PWR</div><div>{{ qso.power_w|na }}</div>
+                <div>QSL_SENT</div><div>{{ yes_no(qsl_sent_flag(qso)) }}</div>
+                <div>QSL_RCVD</div><div>{{ yes_no(qsl_received_flag(qso)) }}</div>
+                <div>COMMENT</div><div>{{ qso.notes|na }}</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="9"><div class="empty">{{ tr('none_match') }}</div></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mobile-card-list mobile-only">
+    {% for qso in qsos %}
+      <details class="card mobile-qso-card mobile-log-card">
+        <summary>
+          <div>
+            <strong>{{ qso.callsign|na }}</strong>
+            <div class="mini muted">{{ qso.qso_date|na }} {{ qso.qso_time_utc|na }} UTC</div>
+          </div>
+          <span class="pill">{{ tr('expand') }}</span>
+        </summary>
+        <div class="line"><span>{{ tr('my_callsign') }}</span><span>{{ station_callsign_value()|na }}</span></div>
+        <div class="line"><span>{{ tr('dxcc') }}</span><span title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></span></div>
+        <div class="line"><span>{{ tr('mode') }}</span><span>{{ qso.mode|na }}</span></div>
+        <div class="line"><span>{{ tr('band') }}</span><span>{{ qso.band|na }}</span></div>
+        <div class="line"><span>{{ tr('signal_report') }}</span><span>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</span></div>
+        <div class="line"><span>{{ tr('comment') }}</span><span>{{ qso.notes|na }}</span></div>
+        <div class="inline-log-detail" style="margin-top:10px;">
+          <div class="log-grid">
+            <div>QTH</div><div>{{ qso.their_qth|na }}</div>
+            <div>RIG</div><div>{{ qso.radio|na }}</div>
+            <div>ANTENNA</div><div>{{ qso.antenna|na }}</div>
+            <div>TX_PWR</div><div>{{ qso.power_w|na }}</div>
+            <div>QSL_SENT</div><div>{{ yes_no(qsl_sent_flag(qso)) }}</div>
+            <div>QSL_RCVD</div><div>{{ yes_no(qsl_received_flag(qso)) }}</div>
+          </div>
+        </div>
+
+      </details>
+    {% else %}
+      <div class="empty">{{ tr('none_match') }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+function toggleRow(id, btn){
+  const row = document.getElementById(id);
+  if(!row) return;
+  const hidden = row.hasAttribute('hidden');
+  if(hidden){ row.removeAttribute('hidden'); if(btn) btn.textContent = '{{ tr("collapse") }}'; }
+  else { row.setAttribute('hidden','hidden'); if(btn) btn.textContent = '{{ tr("expand") }}'; }
+}
+</script>
+{% endblock %}
