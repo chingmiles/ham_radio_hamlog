@@ -21,7 +21,7 @@
       <div class="span-3"><label>{{ tr('mode') }}</label><select name="mode"><option value="">{{ tr('na') }}</option>{% for opt in mode_options %}<option value="{{ opt }}" {% if qso and qso.mode == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
       <div class="span-3"><label>{{ tr('band') }}</label><select name="band"><option value="">{{ tr('na') }}</option>{% for opt in band_options %}<option value="{{ opt }}" {% if qso and qso.band == opt %}selected{% endif %}>{{ opt }}</option>{% endfor %}</select></div>
       <div class="span-3"><label>{{ tr('frequency') }}</label><input name="frequency" value="{{ qso.frequency if qso else '' }}" placeholder="145.825 / 438.500"></div>
-      <div class="span-3"><label>{{ tr('dxcc') }}</label><div id="dxccPreview" class="dxcc-preview">{% if qso %}<img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"> <span>{{ qso_dxcc_name(qso) }}</span>{% else %}N/A{% endif %}</div></div>
+      <div class="span-3"><label>{{ tr('dxcc') }}</label><div id="dxccPreview" class="dxcc-preview">{% if qso %}<img class="dxcc-flag-img" src="{{ qso_dxcc_flag_url(qso) }}" alt="{{ qso_dxcc_name(qso) }}"> <span>{{ qso_dxcc_name(qso) }}</span>{% else %}N/A{% endif %}</div></div>
 
       <div class="span-3"><label>{{ tr('rst_sent') }}</label><input name="rst_sent" value="{{ qso.rst_sent if qso else '' }}" placeholder="59"></div>
       <div class="span-3"><label>{{ tr('rst_recv') }}</label><input name="rst_recv" value="{{ qso.rst_recv if qso else '' }}" placeholder="59"></div>
@@ -71,33 +71,15 @@
     function syncUtcFields(){ if(!autoMode) return; dateInput.value=currentUtcDate(); timeInput.value=currentUtcTime(); }
     function disableAutoMode(){ autoMode=false; if(hint) hint.textContent='{{ tr("auto_utc_hint") }}'; }
     function syncQsl(){ if(sentSelect&&sentDate){ sentDate.disabled=sentSelect.value!=='yes'; if(sentSelect.value!=='yes') sentDate.value=''; } if(recvSelect&&recvDate){ recvDate.disabled=recvSelect.value!=='yes'; if(recvSelect.value!=='yes') recvDate.value=''; } }
-    const dxccMap = {{ dxcc_map_json|safe if dxcc_map_json is defined else '{}' }};
-    function normalizeDxccCallsign(cs){
-      cs = String(cs || '').trim().toUpperCase().replace(/\s+/g, '');
-      if(!cs) return '';
-      const parts = cs.split('/').filter(Boolean);
-      if(parts.length === 1) return parts[0];
-      const looksLikePrefix = (part) => part.length >= 1 && part.length <= 4 && /[A-Z]/.test(part) && /\d/.test(part);
-      const candidates = [];
-      if(looksLikePrefix(parts[0])) candidates.push(parts[0]);
-      for(const part of parts){ if(/[A-Z]/.test(part) && /\d/.test(part)) candidates.push(part); }
-      candidates.push(...parts);
-      return candidates[0] || cs;
+    async function lookupDxcc(cs){
+      const qs = new URLSearchParams({callsign: cs || '', qso_date: dateInput ? dateInput.value : ''});
+      const resp = await fetch(`/api/dxcc-lookup?${qs.toString()}`);
+      if(!resp.ok) return 'N/A';
+      const info = await resp.json();
+      const meta = [info.adif && info.adif !== '0' ? `ADIF ${info.adif}` : '', info.cq ? `CQ ${info.cq}` : '', info.itu ? `ITU ${info.itu}` : ''].filter(Boolean).join(' · ');
+      return `<img class="dxcc-flag-img" src="${info.flag_url}" alt="${info.name || 'N/A'}"> <span>${info.name || 'N/A'}${meta ? ` <small class="muted">${meta}</small>` : ''}</span>`;
     }
-    function lookupDxcc(cs){
-      cs = normalizeDxccCallsign(cs);
-      const prefixes = Object.keys(dxccMap).sort((a,b)=>b.length-a.length);
-      for(const prefix of prefixes){
-        if(cs.startsWith(prefix)){
-          const info = dxccMap[prefix] || {};
-          const iso = String(info.iso || 'zz').toLowerCase();
-          const meta = [info.adif ? `ADIF ${info.adif}` : '', info.cq ? `CQ ${info.cq}` : '', info.itu ? `ITU ${info.itu}` : ''].filter(Boolean).join(' · ');
-          return `<img class="dxcc-flag-img" src="/static/flags/${iso}.svg" alt="${info.name || 'N/A'}"> <span>${info.name || 'N/A'}${meta ? ` <small class="muted">${meta}</small>` : ''}</span>`;
-        }
-      }
-      return 'N/A';
-    }
-    if(callsignInput && dxccPreview){ const update=()=>{ dxccPreview.innerHTML=lookupDxcc(callsignInput.value); }; callsignInput.addEventListener('input', update); update(); }
+    if(callsignInput && dxccPreview){ const update=async()=>{ dxccPreview.innerHTML = await lookupDxcc(callsignInput.value); }; callsignInput.addEventListener('input', update); dateInput && dateInput.addEventListener('input', update); update(); }
     timeInput.addEventListener('input',()=>{ const f=formatUtcDigits(timeInput.value); timeInput.value=f; if(isNew) disableAutoMode(); });
     dateInput.addEventListener('input',()=>{ if(isNew) disableAutoMode(); });
     if(sentSelect) sentSelect.addEventListener('change', syncQsl);

@@ -38,7 +38,7 @@
         <tr>
           <td>{{ station_callsign_value()|na }}</td>
           <td>{{ qso.callsign|na }}</td>
-          <td title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></td>
+          <td title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ qso_dxcc_flag_url(qso) }}" alt="{{ qso_dxcc_name(qso) }}"></td>
           <td>{{ qso.mode|na }}</td>
           <td>{{ qso.band|na }}</td>
           <td>{{ qso.qso_date|na }} {{ qso.qso_time_utc|na }}</td>
@@ -60,7 +60,7 @@
               <div class="log-grid">
                 <div>STATION_CALLSIGN</div><div>{{ station_callsign_value()|na }}</div>
                 <div>CALL</div><div>{{ qso.callsign|na }}</div>
-                <div>DXCC</div><div title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"> {{ qso_dxcc_name(qso) }}{% if qso_dxcc_adif(qso) and qso_dxcc_adif(qso) != '0' %} <span class="mini muted">ADIF {{ qso_dxcc_adif(qso) }} · CQ {{ qso_dxcc_cq(qso)|na }} · ITU {{ qso_dxcc_itu(qso)|na }}</span>{% endif %}</div>
+                <div>DXCC</div><div title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ qso_dxcc_flag_url(qso) }}" alt="{{ qso_dxcc_name(qso) }}"> {{ qso_dxcc_name(qso) }}{% if qso_dxcc_adif(qso) and qso_dxcc_adif(qso) != '0' %} <span class="mini muted">ADIF {{ qso_dxcc_adif(qso) }} · CQ {{ qso_dxcc_cq(qso)|na }} · ITU {{ qso_dxcc_itu(qso)|na }}</span>{% endif %}</div>
                 <div>QSO_DATE</div><div>{{ qso.qso_date|na }}</div>
                 <div>TIME_ON</div><div>{{ qso.qso_time_utc|na }} UTC</div>
                 <div>BAND</div><div>{{ qso.band|na }}</div>
@@ -96,7 +96,7 @@
           <span class="pill">{{ tr('expand') }}</span>
         </summary>
         <div class="line"><span>{{ tr('my_callsign') }}</span><span>{{ station_callsign_value()|na }}</span></div>
-        <div class="line"><span>{{ tr('dxcc') }}</span><span title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ url_for('static', filename='flags/' ~ qso_dxcc_iso(qso) ~ '.svg') }}" alt="{{ qso_dxcc_name(qso) }}"></span></div>
+        <div class="line"><span>{{ tr('dxcc') }}</span><span title="{{ qso_dxcc_name(qso) }}"><img class="dxcc-flag-img" src="{{ qso_dxcc_flag_url(qso) }}" alt="{{ qso_dxcc_name(qso) }}"></span></div>
         <div class="line"><span>{{ tr('mode') }}</span><span>{{ qso.mode|na }}</span></div>
         <div class="line"><span>{{ tr('band') }}</span><span>{{ qso.band|na }}</span></div>
         <div class="line"><span>{{ tr('signal_report') }}</span><span>{{ qso.rst_sent|na }} / {{ qso.rst_recv|na }}</span></div>

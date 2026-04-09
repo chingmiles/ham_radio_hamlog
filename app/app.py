@@ -97,111 +97,68 @@ TRANSLATIONS = {
 }
 
 
-DXCC_ENTITIES = [
-    {'entity': 'China', 'name_zh': '中国', 'name_en': 'China', 'iso': 'cn', 'adif': '318', 'cq': '24', 'itu': '44', 'continent': 'AS',
-     'prefixes': ['B','BA','BB','BC','BD','BE','BF','BG','BH','BI','BJ','BL']},
-    {'entity': 'Hong Kong', 'name_zh': '中国香港', 'name_en': 'Hong Kong', 'iso': 'hk', 'adif': '321', 'cq': '24', 'itu': '44', 'continent': 'AS',
-     'prefixes': ['VR2']},
-    {'entity': 'Macau', 'name_zh': '中国澳门', 'name_en': 'Macau', 'iso': 'mo', 'adif': '152', 'cq': '24', 'itu': '44', 'continent': 'AS',
-     'prefixes': ['XX9']},
-    {'entity': 'Taiwan', 'name_zh': '中国台湾', 'name_en': 'Taiwan', 'iso': 'tw', 'adif': '386', 'cq': '24', 'itu': '44', 'continent': 'AS',
-     'prefixes': ['BM','BN','BO','BP','BQ','BU','BV','BW','BX']},
-    {'entity': 'Japan', 'name_zh': '日本', 'name_en': 'Japan', 'iso': 'jp', 'adif': '339', 'cq': '25', 'itu': '45', 'continent': 'AS',
-     'prefixes': ['7J','7K','7L','7M','7N','8J','8K','8L','8M','8N','JA','JB','JC','JD','JE','JF','JG','JH','JI','JJ','JK','JL','JM','JN','JO','JP','JQ','JR','JS']},
-    {'entity': 'South Korea', 'name_zh': '韩国', 'name_en': 'South Korea', 'iso': 'kr', 'adif': '137', 'cq': '25', 'itu': '44', 'continent': 'AS',
-     'prefixes': ['6K','6L','6M','DS','DT','HL']},
-    {'entity': 'United States', 'name_zh': '美国', 'name_en': 'United States', 'iso': 'us', 'adif': '291', 'cq': '5', 'itu': '8', 'continent': 'NA',
-     'prefixes': ['AA','AB','AC','AD','AE','AF','AG','AI','AJ','AK','K','N','W']},
-    {'entity': 'Canada', 'name_zh': '加拿大', 'name_en': 'Canada', 'iso': 'ca', 'adif': '1', 'cq': '4', 'itu': '9', 'continent': 'NA',
-     'prefixes': ['CF','CG','CH','CI','CJ','CK','VA','VB','VC','VD','VE','VF','VG','VO','VX','VY','XJ','XK','XL','XM','XN','XO']},
-    {'entity': 'Australia', 'name_zh': '澳大利亚', 'name_en': 'Australia', 'iso': 'au', 'adif': '150', 'cq': '30', 'itu': '55', 'continent': 'OC',
-     'prefixes': ['AX','VH','VI','VK','VL','VM','VN','VZ']},
-    {'entity': 'New Zealand', 'name_zh': '新西兰', 'name_en': 'New Zealand', 'iso': 'nz', 'adif': '170', 'cq': '32', 'itu': '60', 'continent': 'OC',
-     'prefixes': ['ZK','ZL','ZM']},
-    {'entity': 'England', 'name_zh': '英格兰', 'name_en': 'England', 'iso': 'gb', 'adif': '223', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['2E','G','M']},
-    {'entity': 'Scotland', 'name_zh': '苏格兰', 'name_en': 'Scotland', 'iso': 'gb', 'adif': '279', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['2M','GM','GS']},
-    {'entity': 'Wales', 'name_zh': '威尔士', 'name_en': 'Wales', 'iso': 'gb', 'adif': '294', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['2W','GW','GC']},
-    {'entity': 'Northern Ireland', 'name_zh': '北爱尔兰', 'name_en': 'Northern Ireland', 'iso': 'gb', 'adif': '265', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['2I','GI','GN']},
-    {'entity': 'France', 'name_zh': '法国', 'name_en': 'France', 'iso': 'fr', 'adif': '227', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['F','HW','HX','HY','TH','TK','TM','TO']},
-    {'entity': 'Germany', 'name_zh': '德国', 'name_en': 'Germany', 'iso': 'de', 'adif': '230', 'cq': '14', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['DA','DB','DC','DD','DE','DF','DG','DH','DJ','DK','DL','DM','DN','DO','DP','DQ','DR','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9']},
-    {'entity': 'Spain', 'name_zh': '西班牙', 'name_en': 'Spain', 'iso': 'es', 'adif': '281', 'cq': '14', 'itu': '37', 'continent': 'EU',
-     'prefixes': ['AM','AN','AO','EA','EB','EC','ED','EE','EF','EG','EH']},
-    {'entity': 'Italy', 'name_zh': '意大利', 'name_en': 'Italy', 'iso': 'it', 'adif': '248', 'cq': '15', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['I','IA','IB','IC','ID','IE','IF','IG','IH','II','IJ','IK','IL','IM','IN','IO','IP','IQ','IR','IS','IT','IU','IV','IW','IZ']},
-    {'entity': 'Netherlands', 'name_zh': '荷兰', 'name_en': 'Netherlands', 'iso': 'nl', 'adif': '263', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['PA','PB','PC','PD','PE','PF','PG','PH','PI']},
-    {'entity': 'Belgium', 'name_zh': '比利时', 'name_en': 'Belgium', 'iso': 'zz', 'adif': '209', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['ON','OO','OP','OR','OS','OT']},
-    {'entity': 'Switzerland', 'name_zh': '瑞士', 'name_en': 'Switzerland', 'iso': 'zz', 'adif': '287', 'cq': '14', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['HB']},
-    {'entity': 'Austria', 'name_zh': '奥地利', 'name_en': 'Austria', 'iso': 'zz', 'adif': '206', 'cq': '15', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['OE']},
-    {'entity': 'Poland', 'name_zh': '波兰', 'name_en': 'Poland', 'iso': 'zz', 'adif': '269', 'cq': '15', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['HF','SN','SO','SP','SQ','SR','3Z']},
-    {'entity': 'Czech Republic', 'name_zh': '捷克', 'name_en': 'Czech Republic', 'iso': 'zz', 'adif': '503', 'cq': '15', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['OK','OL']},
-    {'entity': 'Slovakia', 'name_zh': '斯洛伐克', 'name_en': 'Slovakia', 'iso': 'zz', 'adif': '504', 'cq': '15', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['OM']},
-    {'entity': 'Denmark', 'name_zh': '丹麦', 'name_en': 'Denmark', 'iso': 'zz', 'adif': '221', 'cq': '14', 'itu': '18', 'continent': 'EU',
-     'prefixes': ['5P','5Q','OU','OV','OZ']},
-    {'entity': 'Sweden', 'name_zh': '瑞典', 'name_en': 'Sweden', 'iso': 'zz', 'adif': '284', 'cq': '14', 'itu': '18', 'continent': 'EU',
-     'prefixes': ['7S','8S','SA','SB','SC','SD','SE','SF','SG','SH','SI','SJ','SK','SL','SM']},
-    {'entity': 'Norway', 'name_zh': '挪威', 'name_en': 'Norway', 'iso': 'zz', 'adif': '266', 'cq': '14', 'itu': '18', 'continent': 'EU',
-     'prefixes': ['JW','JX','LA','LB','LC','LD','LE','LF','LG','LH','LI','LJ','LK','LM','LN']},
-    {'entity': 'Finland', 'name_zh': '芬兰', 'name_en': 'Finland', 'iso': 'zz', 'adif': '224', 'cq': '15', 'itu': '18', 'continent': 'EU',
-     'prefixes': ['OF','OG','OH','OI','OJ']},
-    {'entity': 'Portugal', 'name_zh': '葡萄牙', 'name_en': 'Portugal', 'iso': 'zz', 'adif': '272', 'cq': '14', 'itu': '37', 'continent': 'EU',
-     'prefixes': ['CR','CS','CT']},
-    {'entity': 'Ireland', 'name_zh': '爱尔兰', 'name_en': 'Ireland', 'iso': 'zz', 'adif': '245', 'cq': '14', 'itu': '27', 'continent': 'EU',
-     'prefixes': ['EI','EJ']},
-    {'entity': 'Greece', 'name_zh': '希腊', 'name_en': 'Greece', 'iso': 'zz', 'adif': '236', 'cq': '20', 'itu': '28', 'continent': 'EU',
-     'prefixes': ['J4','SV','SX','SY','SZ']},
-    {'entity': 'Turkey', 'name_zh': '土耳其', 'name_en': 'Turkey', 'iso': 'zz', 'adif': '390', 'cq': '20', 'itu': '39', 'continent': 'AS',
-     'prefixes': ['TA','TB','TC','YM']},
-    {'entity': 'European Russia', 'name_zh': '俄罗斯（欧洲部分）', 'name_en': 'European Russia', 'iso': 'ru', 'adif': '54', 'cq': '16', 'itu': '29', 'continent': 'EU',
-     'prefixes': ['R1','R2','R3','R4','R6','R7','RA1','RA2','RA3','RA4','RA6','RA7','RC1','RC2','RC3','RC4','RC6','RC7','RD1','RD2','RD3','RD4','RD6','RD7','RE1','RE3','RE4','RE6','RE7','RF1','RF2','RF3','RF4','RF6','RF7','RG1','RG2','RG3','RG4','RG6','RG7','RI1','RI2','RI3','RI4','RI6','RI7','RJ1','RJ2','RJ3','RJ4','RJ6','RJ7','RK1','RK2','RK3','RK4','RK6','RK7','RL1','RL2','RL3','RL4','RL6','RL7','RM1','RM2','RM3','RM4','RM6','RM7','RN1','RN2','RN3','RN4','RN6','RN7','RO1','RO2','RO3','RO4','RO6','RO7','RQ1','RQ2','RQ3','RQ4','RQ6','RQ7','RT1','RT2','RT3','RT4','RT6','RT7','RU1','RU2','RU3','RU4','RU6','RU7','RV1','RV2','RV3','RV4','RV6','RV7','RW1','RW2','RW3','RW4','RW6','RW7','RX1','RX2','RX3','RX4','RX6','RX7','RY1','RY2','RY3','RY4','RY6','RY7','RZ1','RZ2','RZ3','RZ4','RZ6','RZ7','UA1','UA2','UA3','UA4','UA6','UA7','UB1','UB2','UB3','UB4','UB6','UB7','UC1','UC2','UC3','UC4','UC6','UC7','UD1','UD2','UD3','UD4','UD6','UD7','UE1','UE2','UE3','UE4','UE6','UE7','UF1','UF2','UF3','UF4','UF6','UF7','UG1','UG2','UG3','UG4','UG6','UG7','UH1','UH2','UH3','UH4','UH6','UH7','UI1','UI2','UI3','UI4','UI6','UI7']},
-    {'entity': 'Asiatic Russia', 'name_zh': '俄罗斯（亚洲部分）', 'name_en': 'Asiatic Russia', 'iso': 'ru', 'adif': '15', 'cq': '17', 'itu': '30', 'continent': 'AS',
-     'prefixes': ['R0','R8','R9','RA0','RA8','RA9','RC0','RC8','RC9','RD0','RD8','RD9','RE0','RE8','RE9','RF0','RF8','RF9','RG0','RG8','RG9','RI0','RI8','RI9','RJ0','RJ8','RJ9','RK0','RK8','RK9','RL0','RL8','RL9','RM0','RM8','RM9','RN0','RN8','RN9','RO0','RO8','RO9','RQ0','RQ8','RQ9','RT0','RT8','RT9','RU0','RU8','RU9','RV0','RV8','RV9','RW0','RW8','RW9','RX0','RX8','RX9','RY0','RY8','RY9','RZ0','RZ8','RZ9','UA0','UA8','UA9','UB0','UB8','UB9','UC0','UC8','UC9','UD0','UD8','UD9','UE0','UE8','UE9','UF0','UF8','UF9','UG0','UG8','UG9','UH0','UH8','UH9','UI0','UI8','UI9']},
-    {'entity': 'Brazil', 'name_zh': '巴西', 'name_en': 'Brazil', 'iso': 'br', 'adif': '108', 'cq': '11', 'itu': '15', 'continent': 'SA',
-     'prefixes': ['PP','PQ','PR','PS','PT','PU','PV','PW','PX','PY','ZV','ZW','ZX','ZY']},
-    {'entity': 'Argentina', 'name_zh': '阿根廷', 'name_en': 'Argentina', 'iso': 'ar', 'adif': '100', 'cq': '13', 'itu': '14', 'continent': 'SA',
-     'prefixes': ['AY','AZ','LO','LP','LQ','LR','LS','LT','LU','LV','LW']},
-    {'entity': 'South Africa', 'name_zh': '南非', 'name_en': 'South Africa', 'iso': 'za', 'adif': '462', 'cq': '38', 'itu': '57', 'continent': 'AF',
-     'prefixes': ['ZR','ZS','ZT','ZU']},
-    {'entity': 'India', 'name_zh': '印度', 'name_en': 'India', 'iso': 'in', 'adif': '324', 'cq': '22', 'itu': '41', 'continent': 'AS',
-     'prefixes': ['AT','AU','VT','VU','VW']},
-    {'entity': 'West Malaysia', 'name_zh': '西马来西亚', 'name_en': 'West Malaysia', 'iso': 'my', 'adif': '299', 'cq': '28', 'itu': '54', 'continent': 'AS',
-     'prefixes': ['9M2','9W2']},
-    {'entity': 'East Malaysia', 'name_zh': '东马来西亚', 'name_en': 'East Malaysia', 'iso': 'my', 'adif': '46', 'cq': '28', 'itu': '54', 'continent': 'OC',
-     'prefixes': ['9M6','9W6']},
-    {'entity': 'Philippines', 'name_zh': '菲律宾', 'name_en': 'Philippines', 'iso': 'ph', 'adif': '375', 'cq': '27', 'itu': '50', 'continent': 'OC',
-     'prefixes': ['4D','4E','4F','DU','DV','DW','DX','DY','DZ']},
-    {'entity': 'Thailand', 'name_zh': '泰国', 'name_en': 'Thailand', 'iso': 'th', 'adif': '387', 'cq': '26', 'itu': '49', 'continent': 'AS',
-     'prefixes': ['E2','HS']},
-    {'entity': 'Indonesia', 'name_zh': '印度尼西亚', 'name_en': 'Indonesia', 'iso': 'id', 'adif': '327', 'cq': '28', 'itu': '54', 'continent': 'OC',
-     'prefixes': ['8A','8B','8C','PO','YB','YC','YD','YE','YF','YG','YH']},
-]
 
-DXCC_DEFAULT = {'entity': 'Unknown', 'name_zh': 'N/A', 'name_en': 'N/A', 'iso': 'zz', 'adif': '0', 'cq': '', 'itu': '', 'continent': ''}
+DXCC_DATA_PATH = BASE_DIR / 'dxcc.json'
+DXCC_DEFAULT = {
+    'entity': 'Unknown',
+    'name_zh': 'N/A',
+    'name_en': 'N/A',
+    'name': 'N/A',
+    'iso': 'zz',
+    'adif': '0',
+    'cq': '',
+    'itu': '',
+    'continent': '',
+    'deleted': 'False',
+    'valid_start': '',
+    'valid_end': '',
+}
 
 
-def _compile_dxcc_rules() -> list[tuple[str, dict[str, str]]]:
-    rules: list[tuple[str, dict[str, str]]] = []
-    for entry in DXCC_ENTITIES:
-        info = {k: str(v) for k, v in entry.items() if k != 'prefixes'}
-        for prefix in entry['prefixes']:
-            rules.append((prefix.upper(), info))
-    rules.sort(key=lambda item: len(item[0]), reverse=True)
-    return rules
+def _load_dxcc_entities() -> list[dict[str, str]]:
+    payload = json.loads(DXCC_DATA_PATH.read_text(encoding='utf-8'))
+    entities: list[dict[str, str]] = []
+    for item in payload.get('dxcc', []):
+        country_code = (item.get('countryCode') or 'ZZ').lower()
+        info = {
+            'entity': str(item.get('name') or 'Unknown'),
+            'name_zh': str(item.get('name') or 'Unknown'),
+            'name_en': str(item.get('name') or 'Unknown'),
+            'iso': country_code if re.fullmatch(r'[a-z]{2}', country_code) else 'zz',
+            'adif': str(item.get('entityCode') or '0'),
+            'cq': ','.join(str(v) for v in (item.get('cq') or [])),
+            'itu': ','.join(str(v) for v in (item.get('itu') or [])),
+            'continent': ','.join(str(v) for v in (item.get('continent') or [])),
+            'deleted': 'True' if item.get('deleted') else 'False',
+            'valid_start': str(item.get('validStart') or ''),
+            'valid_end': str(item.get('validEnd') or ''),
+            'prefix': str(item.get('prefix') or ''),
+            'prefix_regex': str(item.get('prefixRegex') or ''),
+        }
+        entities.append(info)
+    return entities
 
 
-DXCC_RULES = _compile_dxcc_rules()
+DXCC_ENTITIES = _load_dxcc_entities()
+
+
+def _safe_compile_regex(pattern: str) -> re.Pattern[str] | None:
+    if not pattern:
+        return None
+    try:
+        return re.compile(pattern, re.IGNORECASE)
+    except re.error:
+        return None
+
+
+DXCC_MATCHERS: list[dict[str, object]] = []
+for info in DXCC_ENTITIES:
+    tokens = [t.strip().upper() for t in str(info.get('prefix', '')).split(',') if t.strip()]
+    DXCC_MATCHERS.append({
+        'info': info,
+        'tokens': tokens,
+        'regex': _safe_compile_regex(str(info.get('prefix_regex') or '')),
+    })
 
 
 app = Flask(__name__)
@@ -337,7 +294,7 @@ def inject_helpers():
         'band_options': BAND_OPTIONS,
         'mode_options': MODE_OPTIONS,
         'current_language': current_language(),
-        'dxcc_map_json': json.dumps({prefix: {'iso': info.get('iso', 'zz'), 'name': (info['name_en'] if current_language() == 'en' else info['name_zh']), 'adif': info.get('adif', '0'), 'cq': info.get('cq', ''), 'itu': info.get('itu', ''), 'continent': info.get('continent', '')} for prefix, info in DXCC_RULES}, ensure_ascii=False),
+        'dxcc_map_json': '{}',
     }
 
 
@@ -435,84 +392,130 @@ def tr(key: str) -> str:
     return t(key)
 
 
+
 def normalize_callsign_for_dxcc(value: str) -> str:
-    cs = (value or '').upper().strip()
-    cs = re.sub(r'\s+', '', cs)
+    cs = re.sub(r'\s+', '', (value or '').upper().strip())
     if not cs:
         return ''
-    parts = [p for p in cs.split('/') if p]
-    if len(parts) == 1:
-        return parts[0]
-
-    def looks_like_prefix(part: str) -> bool:
-        return 1 <= len(part) <= 4 and any(ch.isalpha() for ch in part) and any(ch.isdigit() for ch in part)
-
-    candidates: list[str] = []
-    if looks_like_prefix(parts[0]):
-        candidates.append(parts[0])
-    for part in parts:
-        if any(ch.isalpha() for ch in part) and any(ch.isdigit() for ch in part):
-            candidates.append(part)
-    candidates.extend(parts)
-
-    seen = set()
-    ordered: list[str] = []
-    for item in candidates:
-        if item not in seen:
-            seen.add(item)
-            ordered.append(item)
-    return ordered[0] if ordered else cs
+    return cs
 
 
-def qso_dxcc_info_from_callsign(callsign: str) -> dict[str, str]:
+def _parse_iso_date(value: str) -> datetime | None:
+    value = (value or '').strip()
+    if not value:
+        return None
+    try:
+        return datetime.strptime(value, '%Y-%m-%d')
+    except ValueError:
+        return None
+
+
+def _dxcc_date_is_valid(info: dict[str, str], qso_date: str | None) -> bool:
+    target = _parse_iso_date(qso_date or '')
+    if target is None:
+        return info.get('deleted') != 'True'
+    start = _parse_iso_date(info.get('valid_start', ''))
+    end = _parse_iso_date(info.get('valid_end', ''))
+    if start and target < start:
+        return False
+    if end and target > end:
+        return False
+    if info.get('deleted') == 'True' and not end and not start:
+        return False
+    return True
+
+
+def _match_token_score(callsign: str, tokens: list[str]) -> int:
+    best = 0
+    for token in tokens:
+        token = token.upper()
+        if token and callsign.startswith(token):
+            best = max(best, len(token.replace('/', '')))
+    return best
+
+
+def qso_dxcc_info_from_callsign(callsign: str, qso_date: str | None = None) -> dict[str, str]:
     cs = normalize_callsign_for_dxcc(callsign)
     lang = current_language()
-    for prefix, info in DXCC_RULES:
-        if cs.startswith(prefix):
-            result = dict(info)
-            result['iso'] = (result.get('iso') or 'zz').lower()
-            result['name'] = result['name_en'] if lang == 'en' else result['name_zh']
-            return result
-    return {
-        'entity': DXCC_DEFAULT['entity'],
-        'iso': 'zz',
-        'adif': DXCC_DEFAULT['adif'],
-        'cq': DXCC_DEFAULT['cq'],
-        'itu': DXCC_DEFAULT['itu'],
-        'continent': DXCC_DEFAULT['continent'],
-        'name': DXCC_DEFAULT['name_en'] if lang == 'en' else DXCC_DEFAULT['name_zh'],
-        'name_zh': DXCC_DEFAULT['name_zh'],
-        'name_en': DXCC_DEFAULT['name_en'],
-    }
+    if not cs:
+        result = dict(DXCC_DEFAULT)
+        result['name'] = result['name_en'] if lang == 'en' else result['name_zh']
+        return result
+
+    best: tuple[int, int, dict[str, str]] | None = None
+    for matcher in DXCC_MATCHERS:
+        info = matcher['info']
+        regex = matcher['regex']
+        if regex is None or not regex.match(cs):
+            continue
+        if not _dxcc_date_is_valid(info, qso_date):
+            continue
+        score = _match_token_score(cs, matcher['tokens'])
+        if score == 0:
+            score = len(str(info.get('prefix_regex') or ''))
+        deleted_penalty = 0 if info.get('deleted') != 'True' else -1000
+        candidate = (score, deleted_penalty, info)
+        if best is None or candidate > best:
+            best = candidate
+
+    if best is None:
+        result = dict(DXCC_DEFAULT)
+        result['name'] = result['name_en'] if lang == 'en' else result['name_zh']
+        return result
+
+    info = dict(best[2])
+    info['iso'] = (info.get('iso') or 'zz').lower()
+    info['name'] = info['name_en'] if lang == 'en' else info['name_zh']
+    return info
 
 
 def qso_country(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('name', 'N/A')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('name', 'N/A')
 
 
 @app.template_global()
 def qso_dxcc_iso(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('iso', 'zz')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('iso', 'zz')
 
 
 @app.template_global()
 def qso_dxcc_name(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('name', 'N/A')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('name', 'N/A')
 
 
 @app.template_global()
 def qso_dxcc_adif(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('adif', '0')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('adif', '0')
 
 
 @app.template_global()
 def qso_dxcc_cq(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('cq', '')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('cq', '')
 
 
 @app.template_global()
 def qso_dxcc_itu(qso: QSO) -> str:
-    return qso_dxcc_info_from_callsign((qso.callsign or '')).get('itu', '')
+    return qso_dxcc_info_from_callsign((qso.callsign or ''), getattr(qso, 'qso_date', '')).get('itu', '')
+
+
+def _local_flag_exists(iso_code: str) -> bool:
+    if not re.fullmatch(r'[a-z]{2}', (iso_code or '').lower()):
+        return False
+    return (BASE_DIR / 'static' / 'flags' / f'{iso_code.lower()}.svg').exists()
+
+
+def dxcc_flag_url_for_iso(iso_code: str) -> str:
+    iso = (iso_code or 'zz').lower()
+    if _local_flag_exists(iso):
+        return url_for('static', filename=f'flags/{iso}.svg')
+    if re.fullmatch(r'[a-z]{2}', iso) and iso != 'zz':
+        return f'https://flagcdn.com/{iso}.svg'
+    return url_for('dxcc_flag_badge', code=(iso if iso else 'dx'))
+
+
+@app.template_global()
+def qso_dxcc_flag_url(qso: QSO) -> str:
+    return dxcc_flag_url_for_iso(qso_dxcc_iso(qso))
 
 
 def normalize_utc_time(value: str) -> str:
@@ -1092,6 +1095,37 @@ def adif_import():
             flash(f'已导入 {imported} 条记录', 'success')
             return redirect(url_for('qso_list'))
     return render_template('adif_import.html')
+
+
+
+@app.route('/dxcc-flag-badge/<code>.svg')
+def dxcc_flag_badge(code: str):
+    code = re.sub(r'[^A-Za-z0-9]', '', (code or 'dx')).upper()[:4] or 'DX'
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" viewBox="0 0 64 48">'
+        '<rect width="64" height="48" rx="6" fill="#0f172a"/>'
+        '<rect x="2" y="2" width="60" height="44" rx="5" fill="#1d4ed8"/>'
+        f'<text x="32" y="30" font-size="18" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif">{code}</text>'
+        '</svg>'
+    )
+    return Response(svg, mimetype='image/svg+xml')
+
+
+@app.route('/api/dxcc-lookup')
+def api_dxcc_lookup():
+    callsign = request.args.get('callsign', '')
+    qso_date = request.args.get('qso_date', '')
+    info = qso_dxcc_info_from_callsign(callsign, qso_date)
+    payload = {
+        'name': info.get('name', 'N/A'),
+        'adif': info.get('adif', '0'),
+        'cq': info.get('cq', ''),
+        'itu': info.get('itu', ''),
+        'continent': info.get('continent', ''),
+        'iso': info.get('iso', 'zz'),
+        'flag_url': dxcc_flag_url_for_iso(info.get('iso', 'zz')),
+    }
+    return Response(json.dumps(payload, ensure_ascii=False), mimetype='application/json')
 
 
 @app.route('/api/bing-wallpaper')
