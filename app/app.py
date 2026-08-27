@@ -455,7 +455,7 @@ def qso_dxcc_info_from_callsign(callsign: str, qso_date: str | None = None) -> d
             score = len(str(info.get('prefix_regex') or ''))
         deleted_penalty = 0 if info.get('deleted') != 'True' else -1000
         candidate = (score, deleted_penalty, info)
-        if best is None or candidate > best:
+        if best is None or (candidate[0], candidate[1]) > (best[0], best[1]):
             best = candidate
 
     if best is None:
